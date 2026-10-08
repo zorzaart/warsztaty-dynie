@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a0a2e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Warsztaty Tatuowania Dyń – ZorzaArt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #1a0a2e;
+      --bg-card: #2d1b4e;
+      --orange: #ff6b35;
+      --orange-light: #ff9f1c;
+      --purple: #9b5de5;
+      --pink: #f15bb5;
+      --green: #00f5d4;
+      --cream: #fff8e7;
+      --text: #f0e6ff;
+      --danger: #ff4d6d;
+      --success: #06d6a0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text);
+      min-height: 100vh;
+      background-image:
+        radial-gradient(ellipse at 20% 20%, rgba(255, 107, 53, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(155, 93, 229, 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(241, 91, 181, 0.08) 0%, transparent 70%);
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .bg-deco {
+      position: fixed;
+      font-size: 2.2rem;
+      opacity: 0.1;
+      pointer-events: none;
+      z-index: 0;
+      animation: float 8s ease-in-out infinite;
+    }
+    .bg-deco:nth-child(1) { top: 8%; left: 4%; }
+    .bg-deco:nth-child(2) { top: 22%; right: 5%; animation-delay: 1.5s; font-size: 2.8rem; }
+    .bg-deco:nth-child(3) { bottom: 18%; left: 8%; animation-delay: 3s; }
+    .bg-deco:nth-child(4) { bottom: 30%; right: 10%; animation-delay: 2s; font-size: 1.8rem; }
+    .bg-deco:nth-child(5) { top: 55%; left: 35%; animation-delay: 4s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(-5deg); }
+      50% { transform: translateY(-18px) rotate(5deg); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 1rem 1rem 2rem;
+    }
+
+    header {
+      text-align: center;
+      padding: 1.8rem 0.5rem 1.2rem;
+    }
+
+    header h1 {
+      font-family: 'Creepster', cursive;
+      font-size: clamp(1.9rem, 9vw, 3.6rem);
+      color: var(--orange);
+      text-shadow: 0 0 18px rgba(255, 107, 53, 0.5), 3px 3px 0 #4a1942;
+      letter-spacing: 1px;
+      line-height: 1.15;
+      margin-bottom: 0.35rem;
+    }
+
+    header .subtitle {
+      font-size: clamp(0.95rem, 3.5vw, 1.15rem);
+      color: var(--orange-light);
+      font-weight: 700;
+      margin-bottom: 0.9rem;
+    }
+
+    header .location {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(255, 107, 53, 0.15);
+      border: 1px solid rgba(255, 107, 53, 0.35);
+      border-radius: 999px;
+      padding: 0.5rem 1rem;
+      font-size: 0.88rem;
+      color: var(--cream);
+      max-width: 100%;
+      text-align: center;
+      line-height: 1.35;
+    }
+
+    .info-card {
+      background: linear-gradient(145deg, var(--bg-card), #3d2566);
+      border-radius: 18px;
+      padding: 1.3rem 1.4rem;
+      margin: 1.2rem 0;
+      border: 1px solid rgba(155, 93, 229, 0.3);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+
+    .info-card p {
+      line-height: 1.6;
+      font-size: 0.98rem;
+      color: #e0d4f7;
+    }
+
+    h2 {
+      font-family: 'Creepster', cursive;
+      font-size: clamp(1.5rem, 6vw, 1.9rem);
+      color: var(--orange-light);
+      text-align: center;
+      margin: 1.8rem 0 1rem;
+      text-shadow: 2px 2px 0 #3a1c5a;
+    }
+
+    .slots-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 0.85rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .day-group { margin-bottom: 1.5rem; }
+
+    .day-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: var(--pink);
+      margin-bottom: 0.7rem;
+      padding-left: 0.2rem;
+    }
+
+    .slot-card {
+      background: var(--bg-card);
+      border-radius: 14px;
+      padding: 1.1rem 1rem;
+      border: 2px solid transparent;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      position: relative;
+      min-height: 90px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .slot-card:not(.full):active {
+      transform: scale(0.97);
+    }
+
+    .slot-card:not(.full):hover {
+      border-color: var(--orange);
+      box-shadow: 0 6px 20px rgba(255, 107, 53, 0.22);
+    }
+
+    .slot-card.selected {
+      border-color: var(--green);
+      background: linear-gradient(145deg, #2d1b4e, #1a3a3a);
+      box-shadow: 0 0 0 3px rgba(0, 245, 212, 0.28);
+    }
+
+    .slot-card.full {
+      opacity: 0.5;
+      cursor: not-allowed;
+      background: #1f1433;
+    }
+
+    .slot-time {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--cream);
+    }
+
+    .slot-spots {
+      margin-top: 0.35rem;
+      font-size: 0.85rem;
+      color: var(--green);
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    .slot-card.full .slot-spots { color: var(--danger); }
+
+    .slot-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      background: var(--danger);
+      color: white;
+      padding: 0.18rem 0.45rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .booking-section {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .booking-section.visible { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-card {
+      background: linear-gradient(145deg, var(--bg-card), #3d2566);
+      border-radius: 18px;
+      padding: 1.5rem 1.3rem;
+      border: 1px solid rgba(0, 245, 212, 0.25);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+
+    .form-card h3 {
+      font-size: 1.1rem;
+      color: var(--green);
+      margin-bottom: 1.1rem;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .form-group { margin-bottom: 0.95rem; }
+
+    .form-group label {
+      display: block;
+      font-weight: 700;
+      font-size: 0.88rem;
+      margin-bottom: 0.3rem;
+      color: #d4c4f0;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      border: 2px solid rgba(155, 93, 229, 0.4);
+      background: rgba(0,0,0,0.25);
+      color: var(--cream);
+      font-size: 16px; /* zapobiega zoomowi na iOS */
+      font-family: inherit;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--orange);
+    }
+
+    .form-group input::placeholder { color: #8a7aa8; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.95rem 1.4rem;
+      border: none;
+      border-radius: 14px;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      min-height: 48px; /* dobre dla palca */
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--orange), var(--orange-light));
+      color: #1a0a2e;
+      width: 100%;
+      margin-top: 0.4rem;
+      box-shadow: 0 4px 18px rgba(255, 107, 53, 0.4);
+    }
+
+    .btn-primary:active { transform: scale(0.98); }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--purple);
+      border: 2px solid var(--purple);
+      margin-top: 0.65rem;
+      width: 100%;
+    }
+
+    .btn-secondary:active { background: rgba(155, 93, 229, 0.15); }
+
+    .success-box {
+      display: none;
+      text-align: center;
+      padding: 1.8rem 1.3rem;
+      background: linear-gradient(145deg, #1a3a2e, #1a2a3a);
+      border-radius: 18px;
+      border: 2px solid var(--success);
+      margin: 1.2rem 0;
+    }
+    .success-box.visible {
+      display: block;
+      animation: fadeIn 0.35s ease;
+    }
+    .success-box .big { font-size: 2.8rem; margin-bottom: 0.4rem; }
+    .success-box h3 { color: var(--success); font-size: 1.3rem; margin-bottom: 0.45rem; }
+
+    .admin-link {
+      text-align: center;
+      margin: 2rem 0 0.8rem;
+    }
+    .admin-link a {
+      color: #8a7aa8;
+      font-size: 0.82rem;
+      text-decoration: none;
+      padding: 0.5rem;
+    }
+
+    .admin-panel { display: none; }
+    .admin-panel.visible { display: block; animation: fadeIn 0.3s ease; }
+
+    .login-card, .admin-content {
+      background: linear-gradient(145deg, var(--bg-card), #3d2566);
+      border-radius: 18px;
+      padding: 1.5rem 1.3rem;
+      border: 1px solid rgba(155, 93, 229, 0.3);
+      max-width: 480px;
+      margin: 0 auto 1.5rem;
+    }
+    .admin-content { max-width: 100%; }
+
+    .admin-content h3 {
+      color: var(--orange-light);
+      margin-bottom: 1rem;
+      text-align: center;
+      font-size: 1.15rem;
+    }
+
+    .bookings-table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin: 0 -0.3rem;
+    }
+
+    .bookings-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      min-width: 520px;
+    }
+
+    .bookings-table th {
+      text-align: left;
+      padding: 0.65rem 0.45rem;
+      border-bottom: 2px solid rgba(155, 93, 229, 0.4);
+      color: var(--orange-light);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .bookings-table td {
+      padding: 0.6rem 0.45rem;
+      border-bottom: 1px solid rgba(155, 93, 229, 0.15);
+      color: #e0d4f7;
+      vertical-align: top;
+    }
+
+    .empty-msg {
+      text-align: center;
+      color: #8a7aa8;
+      padding: 1.8rem;
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1.3rem;
+      justify-content: center;
+    }
+
+    .stat-box {
+      background: rgba(0,0,0,0.25);
+      border-radius: 12px;
+      padding: 0.6rem 0.85rem;
+      text-align: center;
+      min-width: 88px;
+    }
+    .stat-box .num {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--green);
+    }
+    .stat-box .label {
+      font-size: 0.72rem;
+      color: #a994c8;
+      line-height: 1.25;
+    }
+
+    .logout-btn {
+      display: block;
+      margin: 1.3rem auto 0;
+      background: transparent;
+      color: var(--danger);
+      border: 2px solid var(--danger);
+      padding: 0.7rem 1.3rem;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.95rem;
+      min-height: 44px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem 0.5rem 2.5rem;
+      color: #6b5a8a;
+      font-size: 0.8rem;
+      line-height: 1.4;
+    }
+
+    .loading-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(26, 10, 46, 0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .loading-overlay.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .spinner {
+      width: 42px;
+      height: 42px;
+      border: 3px solid rgba(255,107,53,0.3);
+      border-top-color: var(--orange);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .setup-banner {
+      background: linear-gradient(135deg, #4a1942, #2d1b4e);
+      border: 2px solid var(--orange);
+      border-radius: 16px;
+      padding: 1.2rem 1.3rem;
+      margin: 1rem 0 1.5rem;
+      text-align: left;
+      font-size: 0.92rem;
+      line-height: 1.55;
+      color: #f0e6ff;
+    }
+    .setup-banner h3 {
+      color: var(--orange-light);
+      margin-bottom: 0.6rem;
+      font-size: 1.05rem;
+      text-align: center;
+    }
+    .setup-banner ol {
+      padding-left: 1.3rem;
+      margin: 0.6rem 0;
+    }
+    .setup-banner code {
+      background: rgba(0,0,0,0.35);
+      padding: 0.15rem 0.4rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      word-break: break-all;
+    }
+    .setup-banner a { color: var(--green); }
+
+    /* Lepsze na telefonach */
+    @media (max-width: 480px) {
+      .container { padding: 0.7rem 0.75rem 1.5rem; }
+      .slots-grid { grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+      .slot-time { font-size: 1.25rem; }
+      .slot-card { padding: 0.95rem 0.8rem; min-height: 82px; }
+      .form-card { padding: 1.3rem 1.1rem; }
+      .info-card { padding: 1.1rem 1.15rem; }
+    }
+
+    @media (min-width: 600px) {
+      .slots-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-deco">🎃</div>
+  <div class="bg-deco">👻</div>
+  <div class="bg-deco">🦇</div>
+  <div class="bg-deco">🎃</div>
+  <div class="bg-deco">✨</div>
+
+  <div class="loading-overlay" id="loading">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="container">
+    <!-- BANNER KONFIGURACJI – znika po poprawnym ustawieniu Firebase -->
+    <div class="setup-banner" id="setupBanner">
+      <h3>⚙️ Konfiguracja Firebase (jednorazowo)</h3>
+      <p>Żeby rezerwacje działały u wszystkich osób, ustaw darmową bazę Firebase (ok. 5 minut):</p>
+      <ol>
+        <li>Wejdź na <a href="https://console.firebase.google.com/" target="_blank" rel="noopener">console.firebase.google.com</a> i zaloguj się kontem Google.</li>
+        <li>Kliknij <strong>Dodaj projekt</strong> → nazwij np. „warsztaty-dynie” → dalej (możesz wyłączyć Analytics).</li>
+        <li>W projekcie: <strong>Build → Realtime Database → Create Database</strong> → wybierz lokalizację (Europe) → <strong>Start in test mode</strong>.</li>
+        <li>Wróć do głównego widoku projektu → kliknij ikonę <strong>&lt;/&gt;</strong> (Web) → zarejestruj aplikację (nazwa dowolna) → skopiuj obiekt <code>firebaseConfig</code>.</li>
+        <li>Otwórz plik <code>index.html</code> w edytorze i wklej swój config w miejscu oznaczonym <code>// === TUTAJ WKLEJ SWÓJ CONFIG ===</code>.</li>
+        <li>W Realtime Database → Rules ustaw na 30 dni (lub dłużej):
+<pre style="background:rgba(0,0,0,0.4);padding:0.6rem;border-radius:8px;font-size:0.78rem;overflow-x:auto;margin-top:0.4rem;">{
+  "rules": {
+    ".read": true,
+    ".write": true
+  }
+}</pre>
+        </li>
+        <li>Zapisz plik i wrzuć go ponownie na Netlify / GitHub Pages.</li>
+      </ol>
+      <p style="margin-top:0.7rem; font-size:0.85rem; color:#c4b5e0;">Po poprawnej konfiguracji ten banner zniknie automatycznie.</p>
+    </div>
+
+    <!-- MAIN VIEW -->
+    <div id="mainView">
+      <header>
+        <h1>🎃 Tatuowanie Dyń 🎃</h1>
+        <p class="subtitle">Wesołe warsztaty Halloween w ZorzaArt</p>
+        <div class="location">📍 Pracownia tatuażu ZorzaArt · ul. Węgierska 2, Łódź</div>
+      </header>
+
+      <div class="info-card">
+        <p>
+          <span style="font-size:1.3rem">🎨</span>
+          Zapraszamy na wyjątkowe warsztaty tatuowania dyń! Nauczysz się ozdabiać dynie w stylu tatuażu –
+          wesoło, kreatywnie i w klimatycznym Halloweenowym nastroju.
+          Każdy termin to mała grupa (max 8 osób), więc będzie kameralnie i przyjemnie.
+          <br><br>
+          <span style="font-size:1.2rem">📅</span> <strong>Piątek 30 października</strong> oraz <strong>sobota 31 października</strong>.
+          Wybierz dogodną godzinę i zarezerwuj swoje miejsce!
+        </p>
+      </div>
+
+      <h2>Wybierz termin</h2>
+      <div id="slotsContainer"></div>
+
+      <div id="bookingSection" class="booking-section">
+        <div class="form-card">
+          <h3>📝 Rezerwacja · <span id="selectedSlotLabel"></span></h3>
+          <form id="bookingForm">
+            <div class="form-group">
+              <label for="firstName">Imię *</label>
+              <input type="text" id="firstName" required placeholder="np. Anna" autocomplete="given-name" enterkeyhint="next">
+            </div>
+            <div class="form-group">
+              <label for="lastName">Nazwisko *</label>
+              <input type="text" id="lastName" required placeholder="np. Kowalska" autocomplete="family-name" enterkeyhint="next">
+            </div>
+            <div class="form-group">
+              <label for="phone">Numer telefonu *</label>
+              <input type="tel" id="phone" required placeholder="np. 500 123 456" autocomplete="tel" inputmode="tel" enterkeyhint="next">
+            </div>
+            <div class="form-group">
+              <label for="email">Adres e-mail *</label>
+              <input type="email" id="email" required placeholder="np. anna@email.com" autocomplete="email" enterkeyhint="done">
+            </div>
+            <button type="submit" class="btn btn-primary" id="submitBtn">🎃 Zarezerwuj miejsce</button>
+            <button type="button" class="btn btn-secondary" id="cancelBtn">Anuluj</button>
+          </form>
+        </div>
+      </div>
+
+      <div id="successBox" class="success-box">
+        <div class="big">🎉</div>
+        <h3>Rezerwacja potwierdzona!</h3>
+        <p id="successText"></p>
+        <p style="margin-top:0.9rem; color:#a994c8; font-size:0.92rem;">
+          Do zobaczenia w pracowni ZorzaArt · ul. Węgierska 2, Łódź 🎃
+        </p>
+        <button class="btn btn-primary" style="margin-top:1.1rem; max-width:280px;" onclick="location.reload()">
+          Wróć do strony głównej
+        </button>
+      </div>
+    </div>
+
+    <!-- ADMIN VIEW -->
+    <div id="adminView" class="admin-panel">
+      <header>
+        <h1 style="font-size:clamp(1.6rem,7vw,2.2rem);">🛠️ Panel administratora</h1>
+        <p class="subtitle">Zgłoszenia na warsztaty tatuowania dyń</p>
+      </header>
+
+      <div id="loginCard" class="login-card">
+        <h3 style="text-align:center; color:var(--orange-light); margin-bottom:1.1rem;">Logowanie</h3>
+        <div class="form-group">
+          <label for="adminPass">Hasło</label>
+          <input type="password" id="adminPass" placeholder="Wpisz hasło administratora" enterkeyhint="done">
+        </div>
+        <button class="btn btn-primary" id="loginBtn">Zaloguj</button>
+        <p id="loginError" style="color:var(--danger); text-align:center; margin-top:0.7rem; display:none; font-size:0.88rem;">
+          Nieprawidłowe hasło
+        </p>
+        <button class="btn btn-secondary" style="margin-top:0.7rem;" onclick="showMain()">← Wróć na stronę</button>
+      </div>
+
+      <div id="adminContent" class="admin-content" style="display:none;">
+        <div class="stats" id="statsBox"></div>
+        <h3>Wszystkie rezerwacje</h3>
+        <div id="bookingsList"></div>
+        <button class="logout-btn" id="logoutBtn">Wyloguj</button>
+      </div>
+    </div>
+
+    <div class="admin-link">
+      <a href="#" id="adminLink">Panel administratora</a>
+    </div>
+
+    <footer>
+      ZorzaArt · ul. Węgierska 2, Łódź · Warsztaty Halloween 2025 🎃
+    </footer>
+  </div>
+
+  <!-- Firebase SDK (modular) -->
+  <script type="module">
+    // ============================================================
+    // === TUTAJ WKLEJ SWÓJ CONFIG Z FIREBASE CONSOLE ==============
+    // ============================================================
+    const firebaseConfig = {
+      apiKey: "AIzaSyAdOD_Eu_VDswh0hLvpK8NDiniQJCcTC5E",
+      authDomain: "warsztaty-dynie.firebaseapp.com",
+      databaseURL: "https://warsztaty-dynie-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "warsztaty-dynie",
+      storageBucket: "warsztaty-dynie.firebasestorage.app",
+      messagingSenderId: "917662620311",
+      appId: "1:917662620311:web:f66b2dc6e3eef5eb4567d2",
+      measurementId: "G-P260HTBFZF"
+    };
+    // ============================================================
+
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js';
+    import { getDatabase, ref, push, onValue, get } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js';
+
+    const ADMIN_PASSWORD = 'zorza2025';
+    const MAX_SPOTS = 8;
+
+    const SLOTS = [
+      { id: 'fri-1500', day: 'Piątek 30 października', time: '15:00', label: 'Piątek 30.10 · 15:00' },
+      { id: 'fri-1630', day: 'Piątek 30 października', time: '16:30', label: 'Piątek 30.10 · 16:30' },
+      { id: 'fri-1800', day: 'Piątek 30 października', time: '18:00', label: 'Piątek 30.10 · 18:00' },
+      { id: 'fri-1900', day: 'Piątek 30 października', time: '19:00', label: 'Piątek 30.10 · 19:00' },
+      { id: 'sat-1000', day: 'Sobota 31 października', time: '10:00', label: 'Sobota 31.10 · 10:00' },
+      { id: 'sat-1130', day: 'Sobota 31 października', time: '11:30', label: 'Sobota 31.10 · 11:30' },
+      { id: 'sat-1300', day: 'Sobota 31 października', time: '13:00', label: 'Sobota 31.10 · 13:00' },
+      { id: 'sat-1430', day: 'Sobota 31 października', time: '14:30', label: 'Sobota 31.10 · 14:30' },
+    ];
+
+    let app, db;
+    let bookingsCache = [];
+    let selectedSlotId = null;
+    let firebaseReady = false;
+
+    function isConfigValid() {
+      return firebaseConfig.apiKey &&
+             !firebaseConfig.apiKey.includes('WSTAW') &&
+             firebaseConfig.databaseURL &&
+             !firebaseConfig.databaseURL.includes('WSTAW');
+    }
+
+    async function initFirebase() {
+      if (!isConfigValid()) {
+        document.getElementById('setupBanner').style.display = 'block';
+        useLocalFallback();
+        return;
+      }
+
+      try {
+        app = initializeApp(firebaseConfig);
+        db = getDatabase(app);
+        firebaseReady = true;
+        document.getElementById('setupBanner').style.display = 'none';
+
+        const bookingsRef = ref(db, 'bookings');
+        onValue(bookingsRef, (snapshot) => {
+          const data = snapshot.val();
+          bookingsCache = data ? Object.entries(data).map(([key, val]) => ({ id: key, ...val })) : [];
+          renderSlots();
+          if (document.getElementById('adminContent').style.display !== 'none') {
+            renderAdmin();
+          }
+        }, (err) => {
+          console.error('Firebase listen error:', err);
+          alert('Błąd połączenia z bazą. Sprawdź reguły Realtime Database (test mode).');
+        });
+      } catch (e) {
+        console.error(e);
+        document.getElementById('setupBanner').style.display = 'block';
+        useLocalFallback();
+      }
+    }
+
+    function useLocalFallback() {
+      firebaseReady = false;
+      try {
+        bookingsCache = JSON.parse(localStorage.getItem('dynie_bookings') || '[]');
+      } catch { bookingsCache = []; }
+      renderSlots();
+    }
+
+    function getSpotCount(slotId) {
+      return bookingsCache.filter(b => b.slotId === slotId).length;
+    }
+
+    function showLoading(show) {
+      document.getElementById('loading').classList.toggle('show', show);
+    }
+
+    function renderSlots() {
+      const container = document.getElementById('slotsContainer');
+      const days = [...new Set(SLOTS.map(s => s.day))];
+
+      let html = '';
+      days.forEach(day => {
+        const daySlots = SLOTS.filter(s => s.day === day);
+        html += `<div class="day-group">
+          <div class="day-label">🗓️ ${day}</div>
+          <div class="slots-grid">`;
+
+        daySlots.forEach(slot => {
+          const taken = getSpotCount(slot.id);
+          const free = MAX_SPOTS - taken;
+          const isFull = free <= 0;
+
+          html += `
+            <div class="slot-card ${isFull ? 'full' : ''}" data-id="${slot.id}"
+                 ${isFull ? '' : `onclick="window.selectSlot('${slot.id}')"`}>
+              ${isFull ? '<span class="slot-badge">Brak miejsc</span>' : ''}
+              <div class="slot-time">${slot.time}</div>
+              <div class="slot-spots">
+                ${isFull ? '❌ Brak wolnych miejsc' : `✅ Wolne: ${free} / ${MAX_SPOTS}`}
+              </div>
+            </div>`;
+        });
+        html += `</div></div>`;
+      });
+      container.innerHTML = html;
+    }
+
+    window.selectSlot = function(id) {
+      if (getSpotCount(id) >= MAX_SPOTS) return;
+      selectedSlotId = id;
+      document.querySelectorAll('.slot-card').forEach(c => c.classList.remove('selected'));
+      const card = document.querySelector(`.slot-card[data-id="${id}"]`);
+      if (card) card.classList.add('selected');
+
+      const slot = SLOTS.find(s => s.id === id);
+      document.getElementById('selectedSlotLabel').textContent = slot.label;
+      document.getElementById('bookingSection').classList.add('visible');
+      document.getElementById('successBox').classList.remove('visible');
+      setTimeout(() => {
+        document.getElementById('bookingSection').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    };
+
+    document.getElementById('bookingForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      if (!selectedSlotId) return;
+
+      const taken = getSpotCount(selectedSlotId);
+      if (taken >= MAX_SPOTS) {
+        alert('Niestety, właśnie zarezerwowano ostatnie miejsca na tę godzinę.');
+        renderSlots();
+        document.getElementById('bookingSection').classList.remove('visible');
+        return;
+      }
+
+      const booking = {
+        slotId: selectedSlotId,
+        firstName: document.getElementById('firstName').value.trim(),
+        lastName: document.getElementById('lastName').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        createdAt: new Date().toISOString()
+      };
+
+      showLoading(true);
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+
+      try {
+        if (firebaseReady) {
+          const snap = await get(ref(db, 'bookings'));
+          const current = snap.val() ? Object.values(snap.val()) : [];
+          const currentTaken = current.filter(b => b.slotId === selectedSlotId).length;
+          if (currentTaken >= MAX_SPOTS) {
+            alert('Niestety, właśnie zarezerwowano ostatnie miejsca na tę godzinę.');
+            showLoading(false);
+            submitBtn.disabled = false;
+            renderSlots();
+            document.getElementById('bookingSection').classList.remove('visible');
+            return;
+          }
+          await push(ref(db, 'bookings'), booking);
+        } else {
+          booking.id = Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+          bookingsCache.push(booking);
+          localStorage.setItem('dynie_bookings', JSON.stringify(bookingsCache));
+          renderSlots();
+        }
+
+        const slot = SLOTS.find(s => s.id === selectedSlotId);
+        document.getElementById('bookingSection').classList.remove('visible');
+        document.getElementById('successBox').classList.add('visible');
+        document.getElementById('successText').innerHTML =
+          `Dziękujemy, <strong>${booking.firstName}</strong>!<br>
+           Twoje miejsce na <strong>${slot.label}</strong> zostało zarezerwowane.`;
+        document.getElementById('successBox').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        this.reset();
+        selectedSlotId = null;
+      } catch (err) {
+        console.error(err);
+        alert('Wystąpił błąd podczas zapisywania rezerwacji. Spróbuj ponownie.');
+      } finally {
+        showLoading(false);
+        submitBtn.disabled = false;
+      }
+    });
+
+    document.getElementById('cancelBtn').addEventListener('click', () => {
+      document.getElementById('bookingSection').classList.remove('visible');
+      document.querySelectorAll('.slot-card').forEach(c => c.classList.remove('selected'));
+      selectedSlotId = null;
+    });
+
+    window.showMain = function() {
+      document.getElementById('mainView').style.display = 'block';
+      document.getElementById('adminView').classList.remove('visible');
+      document.getElementById('adminContent').style.display = 'none';
+      document.getElementById('loginCard').style.display = 'block';
+      document.getElementById('adminPass').value = '';
+      document.getElementById('loginError').style.display = 'none';
+    };
+
+    function showAdmin() {
+      document.getElementById('mainView').style.display = 'none';
+      document.getElementById('adminView').classList.add('visible');
+      window.scrollTo(0, 0);
+    }
+
+    document.getElementById('adminLink').addEventListener('click', e => {
+      e.preventDefault();
+      showAdmin();
+    });
+
+    document.getElementById('loginBtn').addEventListener('click', () => {
+      const pass = document.getElementById('adminPass').value;
+      if (pass === ADMIN_PASSWORD) {
+        document.getElementById('loginCard').style.display = 'none';
+        document.getElementById('adminContent').style.display = 'block';
+        renderAdmin();
+      } else {
+        document.getElementById('loginError').style.display = 'block';
+      }
+    });
+
+    document.getElementById('adminPass').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('loginBtn').click();
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', window.showMain);
+
+    function renderAdmin() {
+      const bookings = bookingsCache;
+      const stats = document.getElementById('statsBox');
+      const list = document.getElementById('bookingsList');
+
+      let statsHtml = `<div class="stat-box"><div class="num">${bookings.length}</div><div class="label">Wszystkich</div></div>`;
+      SLOTS.forEach(s => {
+        const count = getSpotCount(s.id);
+        statsHtml += `<div class="stat-box"><div class="num">${count}/${MAX_SPOTS}</div><div class="label">${s.time}<br><span style="font-size:0.65rem;opacity:0.7">${s.day.includes('Piątek') ? 'Pt' : 'Sb'}</span></div></div>`;
+      });
+      stats.innerHTML = statsHtml;
+
+      if (bookings.length === 0) {
+        list.innerHTML = '<p class="empty-msg">Brak rezerwacji.</p>';
+        return;
+      }
+
+      const slotOrder = SLOTS.map(s => s.id);
+      const sorted = [...bookings].sort((a, b) => {
+        const ia = slotOrder.indexOf(a.slotId);
+        const ib = slotOrder.indexOf(b.slotId);
+        if (ia !== ib) return ia - ib;
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      });
+
+      let table = `<div class="bookings-table-wrap"><table class="bookings-table">
+        <thead>
+          <tr>
+            <th>Termin</th>
+            <th>Imię i nazwisko</th>
+            <th>Telefon</th>
+            <th>E-mail</th>
+            <th>Data zgłoszenia</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+      sorted.forEach(b => {
+        const slot = SLOTS.find(s => s.id === b.slotId);
+        const date = new Date(b.createdAt).toLocaleString('pl-PL', {
+          day: '2-digit', month: '2-digit', year: 'numeric',
+          hour: '2-digit', minute: '2-digit'
+        });
+        table += `<tr>
+          <td>${slot ? slot.label : b.slotId}</td>
+          <td>${escapeHtml(b.firstName)} ${escapeHtml(b.lastName)}</td>
+          <td>${escapeHtml(b.phone)}</td>
+          <td>${escapeHtml(b.email)}</td>
+          <td>${date}</td>
+        </tr>`;
+      });
+
+      table += '</tbody></table></div>';
+      list.innerHTML = table;
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str || '';
+      return div.innerHTML;
+    }
+
+    initFirebase();
+  </script>
+</body>
+</html>
